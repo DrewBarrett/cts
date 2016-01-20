@@ -18,4 +18,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="i dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have iti dont know but u have itv"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
