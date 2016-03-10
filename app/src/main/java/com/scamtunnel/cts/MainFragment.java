@@ -51,6 +51,10 @@ public class MainFragment extends Fragment {
         return fragment;
     }
 
+    /*public void updateText(,String newText){
+
+    }*/
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
