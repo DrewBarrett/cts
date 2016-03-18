@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Not connected to bluetooth device"
-        android:id="@+id/textView3"
+        android:id="@+id/textViewBlue"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 

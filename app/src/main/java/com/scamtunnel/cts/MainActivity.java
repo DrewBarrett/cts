@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,8 +24,13 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     MainFragment firstFragment = new MainFragment();
+
     AboutFragment aboutFragment = new AboutFragment();
-    BluetoothDevice mmDevice;
+    //ISetTextInFragment setText;
+
+    //setText = (ISetTextInFragment)MainFragment;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,28 +72,9 @@ public class MainActivity extends AppCompatActivity
 
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, firstFragment).commit();
+                    .add(R.id.fragment_container, firstFragment, "bluetoothTag").commit();
         }
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBluetoothAdapter != null) {
-            if (!mBluetoothAdapter.isEnabled()) {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, 0);
-            }
-            //Set pairedDevices = mBluetoothAdapter.getBondedDevices();
-            Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-            if(pairedDevices.size() > 0)
-            {
-                for(BluetoothDevice device : pairedDevices)
-                {
-                    if(device.getName().equals("HC-06")) //Note, you will need to change this to match the name of your device
-                    {
-                        mmDevice = device;
-                        break;
-                    }
-                }
-            }
-        }
+
 
     }
 
@@ -131,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_bluetoothdata) {
             //MainFragment mainFragment = new MainFragment();
 
-            transaction.replace(R.id.fragment_container, firstFragment);
+            transaction.replace(R.id.fragment_container, firstFragment, "bluetoothTag");
             //transaction.addToBackStack(null);
 
         } else if (id == R.id.nav_about) {
