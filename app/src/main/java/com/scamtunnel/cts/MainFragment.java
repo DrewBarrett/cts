@@ -99,11 +99,11 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         //return inflater.inflate(R.layout.fragment_main, container, false);
         textbox = (TextView) view.findViewById(R.id.textViewBlue);
-        textbox.setText("test");
+        textbox.setText("Initializing Bluetooth");
         rootView = view;
 
         if (mBluetoothAdapter != null) {
-            updateText("test2");
+            updateText("Bluetooth Adapter Found");
             //MainFragment fragment = (MainFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
             //fragment_obj.updateText("bluetooth connecting...");
             //firstFragment.updateText("test");
@@ -123,6 +123,7 @@ public class MainFragment extends Fragment {
                     if (device.getName().equals("HC-06")) //Note, you will need to change this to match the name of your device
                     {
                         mmDevice = device;
+                        updateText("Bluetooth Connected");
                         //firstFragment.updateText("test");
                         break;
                     }
@@ -132,7 +133,7 @@ public class MainFragment extends Fragment {
             mConnectThread.start();
 
         } else {
-            //firstFragment.updateText("bluetooth disabled");
+            updateText("No Bluetooth Adapter Found");
         }
         return view;
 
