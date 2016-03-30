@@ -113,6 +113,7 @@ public class MainFragment extends Fragment {
             //MainFragment placeholderFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("bluetoothTag");
 
             if (!mBluetoothAdapter.isEnabled()) {
+                updateText("Bluetooth adapter turned off... Turning on...");
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, 1);
             }
@@ -120,10 +121,12 @@ public class MainFragment extends Fragment {
             Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
             if (pairedDevices.size() > 0) {
                 for (BluetoothDevice device : pairedDevices) {
+                    updateText("Scanning paired devices");
+                    updateText(device.getName());
                     if (device.getName().equals("HC-06")) //Note, you will need to change this to match the name of your device
                     {
                         mmDevice = device;
-                        updateText("Bluetooth Connected");
+                        updateText("Bluetooth Device found");
                         //firstFragment.updateText("test");
                         break;
                     }
@@ -131,6 +134,7 @@ public class MainFragment extends Fragment {
             }
             ConnectThread mConnectThread = new ConnectThread(mmDevice);
             mConnectThread.start();
+            updateText("Thread Started");
 
         } else {
             updateText("No Bluetooth Adapter Found");
@@ -192,6 +196,7 @@ public class MainFragment extends Fragment {
             try {
                 tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
             } catch (IOException e) {
+                updateText("ConnectThread Failed");
             }
             mmSocket = tmp;
         }
@@ -199,6 +204,7 @@ public class MainFragment extends Fragment {
         public void run() {
             mBluetoothAdapter.cancelDiscovery();
             try {
+                updateText("Socket Connecting...");
                 mmSocket.connect();
             } catch (IOException connectException) {
                 try {
@@ -207,8 +213,10 @@ public class MainFragment extends Fragment {
                 }
                 return;
             }
+            updateText("Socket connected");
             ConnectedThread mConnectedThread = new ConnectedThread(mmSocket);
             mConnectedThread.start();
+            updateText("Starting connected thread");
         }
 
         public void cancel() {
@@ -245,10 +253,12 @@ public class MainFragment extends Fragment {
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
+            updateText("Connected thread started... Getting streams..");
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
+                updateText("failed to get streams");
             }
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
