@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -209,7 +210,7 @@ public class MainFragment extends Fragment {
             } catch (IOException connectException) {
                 try {
                     mmSocket.close();
-                    updateText("Socket connecting failed...");
+                    Log.d("Socket", "Socket connecting failed...");
                 } catch (IOException closeException) {
                 }
                 return;
@@ -217,7 +218,7 @@ public class MainFragment extends Fragment {
             updateText("Socket connected");
             ConnectedThread mConnectedThread = new ConnectedThread(mmSocket);
             mConnectedThread.start();
-            updateText("Starting connected thread");
+            Log.d("connected thread","Starting connected thread");
         }
 
         public void cancel() {
@@ -254,12 +255,13 @@ public class MainFragment extends Fragment {
             mmSocket = socket;
             InputStream tmpIn = null;
             OutputStream tmpOut = null;
-            updateText("Connected thread started... Getting streams..");
+            //updateText("Connected thread started... Getting streams..");
+            Log.d("Connected Thread", "Connected thread started... Getting streams..");
             try {
                 tmpIn = socket.getInputStream();
                 tmpOut = socket.getOutputStream();
             } catch (IOException e) {
-                updateText("failed to get streams");
+                Log.d("Connected Thread", "failed to get streams");
             }
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
