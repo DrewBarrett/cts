@@ -209,6 +209,7 @@ public class MainFragment extends Fragment {
             } catch (IOException connectException) {
                 try {
                     mmSocket.close();
+                    updateText("Socket connecting failed...");
                 } catch (IOException closeException) {
                 }
                 return;
