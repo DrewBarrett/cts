@@ -112,11 +112,14 @@ public class MainFragment extends Fragment {
             //firstFragment.textbox.setText("bluetooth connecting...");
             // ((MainFragment)firstFragment).textbox.setText("bluetooth connecting...");
             //MainFragment placeholderFragment = (MainFragment) getSupportFragmentManager().findFragmentByTag("bluetoothTag");
-
-            if (!mBluetoothAdapter.isEnabled()) {
-                updateText("Bluetooth adapter turned off... Turning on...");
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, 1);
+            boolean started = false;
+            while (!mBluetoothAdapter.isEnabled()) {
+                if(!started) {
+                    updateText("Bluetooth adapter turned off... Turning on...");
+                    Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableBtIntent, 1);
+                    started = true;
+                }
             }
             //Set pairedDevices = mBluetoothAdapter.getBondedDevices();
             Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
