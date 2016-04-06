@@ -218,7 +218,8 @@ public class MainFragment extends Fragment {
                 }
                 return;
             }
-            updateText("Socket connected");
+            //updateText("Socket connected");
+            Log.d("Socket", "Socket connected");
             ConnectedThread mConnectedThread = new ConnectedThread(mmSocket);
             mConnectedThread.start();
             Log.d("connected thread","Starting connected thread");
