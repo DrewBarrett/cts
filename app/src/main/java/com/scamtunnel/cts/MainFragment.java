@@ -194,13 +194,13 @@ public class MainFragment extends Fragment {
         private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
 
         public ConnectThread(BluetoothDevice device) {
-            updateText("thread started");
+            Log.d("Connect Thread", "thread started");
             BluetoothSocket tmp = null;
             mmDevice = device;
             try {
                 tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
             } catch (IOException e) {
-                updateText("ConnectThread Failed");
+                Log.d("Connect Thread", "ConnectThread Failed");
             }
             mmSocket = tmp;
         }
@@ -208,7 +208,7 @@ public class MainFragment extends Fragment {
         public void run() {
             mBluetoothAdapter.cancelDiscovery();
             try {
-                updateText("Socket Connecting...");
+                Log.d("Socket", "Socket Connecting...");
                 mmSocket.connect();
             } catch (IOException connectException) {
                 try {
@@ -218,7 +218,6 @@ public class MainFragment extends Fragment {
                 }
                 return;
             }
-            //updateText("Socket connected");
             Log.d("Socket", "Socket connected");
             ConnectedThread mConnectedThread = new ConnectedThread(mmSocket);
             mConnectedThread.start();
