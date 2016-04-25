@@ -23,7 +23,7 @@
     <item android:title="Preventative">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_avoid"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Things to avoid" />
             <item

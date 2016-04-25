@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="layout.AvoidFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="213dp"
+        android:layout_height="209dp"
+        android:text="Avoid catching the carpal tunnel by downloading this app. done. you've already cured it. Good job. What a smart use of your data!"
+        android:id="@+id/textView2"
+        android:layout_gravity="center"/>
+
+</FrameLayout>
