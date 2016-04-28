@@ -103,6 +103,19 @@ public class MainFragment extends Fragment {
         textbox.setText("Initializing Bluetooth");
         rootView = view;
 
+
+        return view;
+
+        //TextView textView = (TextView) rootView.findViewById(R.id.textViewBlue);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        startBluetooth();
+    }
+
+    public void startBluetooth(){
         if (mBluetoothAdapter != null) {
             updateText("Bluetooth Adapter Found");
             //MainFragment fragment = (MainFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
@@ -143,9 +156,6 @@ public class MainFragment extends Fragment {
         } else {
             updateText("No Bluetooth Adapter Found");
         }
-        return view;
-
-        //TextView textView = (TextView) rootView.findViewById(R.id.textViewBlue);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -288,7 +298,9 @@ public class MainFragment extends Fragment {
                         }
                     }
                 } catch (IOException e) {
+                    Log.d("Connected Thread", "Exception in run of Connected Thread");
                     break;
+
                 }
             }
 
