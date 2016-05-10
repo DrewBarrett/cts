@@ -46,7 +46,8 @@ public class MainFragment extends Fragment {
     BluetoothDevice mmDevice;
     View rootView;
     BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
+    ConnectThread mConnectThread = null;
+    ConnectedThread mConnectedThread = null;
     private OnFragmentInteractionListener mListener;
 
     public MainFragment() {
@@ -115,6 +116,11 @@ public class MainFragment extends Fragment {
         startBluetooth();
     }
 
+    @Override
+    public void onStop(){
+        super.onStop();
+    }
+
     public void startBluetooth(){
         if (mBluetoothAdapter != null) {
             updateText("Bluetooth Adapter Found");
@@ -139,22 +145,26 @@ public class MainFragment extends Fragment {
             if (pairedDevices.size() > 0) {
                 for (BluetoothDevice device : pairedDevices) {
                     updateText("Scanning paired devices");
+                    Log.d("StartBluetooth","scanning paried devices");
                     updateText(device.getName());
                     if (device.getName().equals("HC-06")) //Note, you will need to change this to match the name of your device
                     {
                         mmDevice = device;
                         updateText("Bluetooth Device found");
+                        Log.d("StartBluetooth","device found");
                         //firstFragment.updateText("test");
                         break;
                     }
                 }
             }
-            ConnectThread mConnectThread = new ConnectThread(mmDevice);
+            mConnectThread = new ConnectThread(mmDevice);
             mConnectThread.start();
             updateText("Thread Started");
+            Log.d("StartBluetooth"," connectThread start called");
 
         } else {
             updateText("No Bluetooth Adapter Found");
+            Log.d("StartBluetooth","no bluetooth adapter found.");
         }
     }
 
@@ -229,7 +239,7 @@ public class MainFragment extends Fragment {
                 return;
             }
             Log.d("Socket", "Socket connected");
-            ConnectedThread mConnectedThread = new ConnectedThread(mmSocket);
+            mConnectedThread = new ConnectedThread(mmSocket);
             mConnectedThread.start();
             Log.d("connected thread","Starting connected thread");
         }
@@ -254,6 +264,7 @@ public class MainFragment extends Fragment {
                     String writeMessage = new String(writeBuf);
                     writeMessage = writeMessage.substring(begin, end);
                     updateText(writeMessage);
+                    Log.d("Handler","message handled");
                     break;
             }
         }
@@ -288,7 +299,8 @@ public class MainFragment extends Fragment {
                 try {
                     bytes += mmInStream.read(buffer, bytes, buffer.length - bytes);
                     for (int i = begin; i < bytes; i++) {
-                        if (buffer[i] == "#".getBytes()[0]) {
+                        if (buffer[i] == "\n".getBytes()[0]) {
+                            Log.d("connected thread","Sending message to be handled");
                             mHandler.obtainMessage(1, begin, i, buffer).sendToTarget();
                             begin = i + 1;
                             if (i == bytes - 1) {
@@ -296,7 +308,12 @@ public class MainFragment extends Fragment {
                                 begin = 0;
                             }
                         }
+                        else{
+                            Log.d("connected thread","message not handled: " + buffer[i] + buffer);
+                        }
                     }
+                    /*bytes = mmInStream.read(buffer);
+                    mHandler.obtainMessage(1, bytes, -1, buffer).sendToTarget();*/
                 } catch (IOException e) {
                     Log.d("Connected Thread", "Exception in run of Connected Thread");
                     break;
@@ -316,7 +333,9 @@ public class MainFragment extends Fragment {
         public void cancel() {
             try {
                 mmSocket.close();
+                Log.d("Connected Socket","socket canceled");
             } catch (IOException e) {
+                Log.d("Connected Socket","failed to close socket");
             }
         }
     }
