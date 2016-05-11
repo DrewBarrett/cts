@@ -8,6 +8,14 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Information about cts!" />
+        android:text="Information about cts!! \nno data found. you're screwed" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="obviously your CTS isn&apos;t that bad if you can still use this app."
+        android:id="@+id/textView2"
+        android:layout_gravity="center" />
 
 </FrameLayout>
