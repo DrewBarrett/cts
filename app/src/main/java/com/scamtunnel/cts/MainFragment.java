@@ -269,6 +269,7 @@ public class MainFragment extends Fragment {
             }
         }
     };
+    final Handler testHandler = new Handler();
 
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
@@ -295,9 +296,37 @@ public class MainFragment extends Fragment {
             byte[] buffer = new byte[1024];
             int begin = 0;
             int bytes = 0;
+            int readBufferPosition = 0;
+            byte[] readBuffer = new byte[1024];
+
             while (true) {
                 try {
-                    bytes += mmInStream.read(buffer, bytes, buffer.length - bytes);
+                    int bytesAvailable = mmInStream.available();
+                    if(bytesAvailable > 0){
+                        byte[] packetbytes = new byte[bytesAvailable];
+                        mmInStream.read(packetbytes);
+                        for(int i=0; i<bytesAvailable;i++){
+                            byte b = packetbytes[i];
+                            if(b == 10){
+                                byte[] encodedBytes = new byte[readBufferPosition];
+                                System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                final String data = new String(encodedBytes, "US-ASCII");
+                                readBufferPosition=0;
+                                testHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updateText(data);
+                                    }
+                                });
+
+                                //mHandler.obtainMessage(1, begin, i, buffer).sendToTarget();
+                            }
+                            else{
+                                readBuffer[readBufferPosition++] = b;
+                            }
+                        }
+                    }
+                    /*bytes += mmInStream.read(buffer, bytes, buffer.length - bytes);
                     for (int i = begin; i < bytes; i++) {
                         if (buffer[i] == "\n".getBytes()[0]) {
                             Log.d("connected thread","Sending message to be handled");
@@ -310,8 +339,10 @@ public class MainFragment extends Fragment {
                         }
                         else{
                             Log.d("connected thread","message not handled: " + buffer[i] + buffer);
+                            //mHandler.obtainMessage(1, begin, i, buffer).sendToTarget();
+                            //begin = i + 1;
                         }
-                    }
+                    }*/
                     /*bytes = mmInStream.read(buffer);
                     mHandler.obtainMessage(1, bytes, -1, buffer).sendToTarget();*/
                 } catch (IOException e) {
