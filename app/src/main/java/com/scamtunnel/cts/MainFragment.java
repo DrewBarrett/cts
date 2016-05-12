@@ -275,7 +275,9 @@ public class MainFragment extends Fragment {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
-
+        String yaw = "";
+        String pitch = "";
+        String roll = "";
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tmpIn = null;
@@ -315,7 +317,13 @@ public class MainFragment extends Fragment {
                                 testHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        updateText(data);
+                                        if(data.contains("*")) {
+                                            yaw = "yaw: " + data.substring(data.indexOf("*", 0)+1, data.indexOf("$")) + "\n";
+                                            pitch = "pitch: " + data.substring(data.indexOf("$", 0)+1, data.indexOf("@")) + "\n";
+                                            roll = "roll: " + data.substring(data.indexOf("@", 0)+1, data.indexOf("#")) + "\n";
+                                        }
+                                        updateText(yaw + pitch + roll + data);
+
                                     }
                                 });
 
