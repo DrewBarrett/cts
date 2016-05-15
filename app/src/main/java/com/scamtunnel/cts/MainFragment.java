@@ -111,17 +111,17 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
+    public void onResume(){
         super.onResume();
         startBluetooth();
     }
 
     @Override
-    public void onStop() {
+    public void onStop(){
         super.onStop();
     }
 
-    public void startBluetooth() {
+    public void startBluetooth(){
         if (mBluetoothAdapter != null) {
             updateText("Bluetooth Adapter Found");
             //MainFragment fragment = (MainFragment) getFragmentManager().findFragmentById(R.id.fragment_container);
@@ -145,13 +145,13 @@ public class MainFragment extends Fragment {
             if (pairedDevices.size() > 0) {
                 for (BluetoothDevice device : pairedDevices) {
                     updateText("Scanning paired devices");
-                    Log.d("StartBluetooth", "scanning paried devices");
+                    Log.d("StartBluetooth","scanning paried devices");
                     updateText(device.getName());
                     if (device.getName().equals("HC-06")) //Note, you will need to change this to match the name of your device
                     {
                         mmDevice = device;
                         updateText("Bluetooth Device found");
-                        Log.d("StartBluetooth", "device found");
+                        Log.d("StartBluetooth","device found");
                         //firstFragment.updateText("test");
                         break;
                     }
@@ -160,11 +160,11 @@ public class MainFragment extends Fragment {
             mConnectThread = new ConnectThread(mmDevice);
             mConnectThread.start();
             updateText("Thread Started");
-            Log.d("StartBluetooth", " connectThread start called");
+            Log.d("StartBluetooth"," connectThread start called");
 
         } else {
             updateText("No Bluetooth Adapter Found");
-            Log.d("StartBluetooth", "no bluetooth adapter found.");
+            Log.d("StartBluetooth","no bluetooth adapter found.");
         }
     }
 
@@ -264,17 +264,20 @@ public class MainFragment extends Fragment {
                     String writeMessage = new String(writeBuf);
                     writeMessage = writeMessage.substring(begin, end);
                     updateText(writeMessage);
-                    Log.d("Handler", "message handled");
+                    Log.d("Handler","message handled");
                     break;
             }
         }
     };
+    final Handler testHandler = new Handler();
 
     private class ConnectedThread extends Thread {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
-
+        String yaw = "";
+        String pitch = "";
+        String roll = "";
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tmpIn = null;
@@ -295,22 +298,59 @@ public class MainFragment extends Fragment {
             byte[] buffer = new byte[1024];
             int begin = 0;
             int bytes = 0;
+            int readBufferPosition = 0;
+            byte[] readBuffer = new byte[1024];
+
             while (true) {
                 try {
-                    bytes += mmInStream.read(buffer, bytes, buffer.length - bytes);
+                    int bytesAvailable = mmInStream.available();
+                    if(bytesAvailable > 0){
+                        byte[] packetbytes = new byte[bytesAvailable];
+                        mmInStream.read(packetbytes);
+                        for(int i=0; i<bytesAvailable;i++){
+                            byte b = packetbytes[i];
+                            if(b == 10){
+                                byte[] encodedBytes = new byte[readBufferPosition];
+                                System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                final String data = new String(encodedBytes, "US-ASCII");
+                                readBufferPosition=0;
+                                testHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if(data.contains("*")) {
+                                            yaw = "yaw: " + data.substring(data.indexOf("*", 0)+1, data.indexOf("$")) + "\n";
+                                            pitch = "pitch: " + data.substring(data.indexOf("$", 0)+1, data.indexOf("@")) + "\n";
+                                            roll = "roll: " + data.substring(data.indexOf("@", 0)+1, data.indexOf("#")) + "\n";
+                                        }
+                                        updateText(yaw + pitch + roll + data);
+
+                                    }
+                                });
+
+                                //mHandler.obtainMessage(1, begin, i, buffer).sendToTarget();
+                            }
+                            else{
+                                readBuffer[readBufferPosition++] = b;
+                            }
+                        }
+                    }
+                    /*bytes += mmInStream.read(buffer, bytes, buffer.length - bytes);
                     for (int i = begin; i < bytes; i++) {
                         if (buffer[i] == "\n".getBytes()[0]) {
-                            Log.d("connected thread", "Sending message to be handled");
+                            Log.d("connected thread","Sending message to be handled");
                             mHandler.obtainMessage(1, begin, i, buffer).sendToTarget();
                             begin = i + 1;
                             if (i == bytes - 1) {
                                 bytes = 0;
                                 begin = 0;
                             }
-                        } else {
-                            Log.d("connected thread", "message not handled: " + buffer[i] + buffer);
                         }
-                    }
+                        else{
+                            Log.d("connected thread","message not handled: " + buffer[i] + buffer);
+                            //mHandler.obtainMessage(1, begin, i, buffer).sendToTarget();
+                            //begin = i + 1;
+                        }
+                    }*/
                     /*bytes = mmInStream.read(buffer);
                     mHandler.obtainMessage(1, bytes, -1, buffer).sendToTarget();*/
                 } catch (IOException e) {
@@ -332,9 +372,9 @@ public class MainFragment extends Fragment {
         public void cancel() {
             try {
                 mmSocket.close();
-                Log.d("Connected Socket", "socket canceled");
+                Log.d("Connected Socket","socket canceled");
             } catch (IOException e) {
-                Log.d("Connected Socket", "failed to close socket");
+                Log.d("Connected Socket","failed to close socket");
             }
         }
     }
