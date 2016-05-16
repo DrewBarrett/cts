@@ -10,6 +10,6 @@
         android:layout_height="209dp"
         android:text="Avoid catching the carpal tunnel by downloading this app. done. you've already cured it. Good job. What a smart use of your data!"
         android:id="@+id/textView2"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
 </FrameLayout>
