@@ -1,15 +1,9 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/scrollView"
-    tools:context="com.scamtunnel.cts.AboutFragment" >
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.scamtunnel.cts.AboutFragment">
 
         <!-- TODO: Update blank fragment layout -->
 
@@ -22,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Carpal tunnel syndrome (CTS) is one of the most common upper limb compression neuropathies"
             android:id="@+id/textView3" />
 
@@ -37,7 +31,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Several tests and procedures. \nElectromyogram. Electromyography measures the tiny electrical discharges produced in muscles. During this test, your doctor inserts a thin-needle electrode into specific muscles. The test evaluates the electrical activity of your muscles when they contract and when they&apos;re at rest. This test can determine if muscle damage has occurred and also may be used to rule out other conditions. Nerve conduction study. In a variation of electromyography, two electrodes are taped to your skin. A small shock is passed through the median nerve to see if electrical impulses are slowed in the carpal tunnel. This test may be used to diagnose your condition and rule out other conditions. Physical examination. Your doctor will conduct a physical examination. He or she will test the feeling in your fingers and the strength of the muscles in your hand. Pressure on the median nerve at the wrist, produced by bending the wrist, tapping on the nerve or simply pressing on the nerve, can bring on the symptoms in many people. "
             android:id="@+id/textView5"
             android:layout_gravity="center_horizontal" />
@@ -53,7 +47,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="It is due to an entrapment of the median nerve in the carpal tunnel at the wrist  -Carpal tunnel syndrome is often the result of a combination of factors that increase pressure on the median nerve and tendons in the carpal tunnel, rather than a problem with the nerve itself. Most likely the disorder is due to a congenital predisposition "
             android:id="@+id/textView7"
             android:layout_gravity="center_horizontal" />
@@ -69,11 +63,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Tingling or numbness in the hand wrist or fingers\n Weakness in your hand or tendency to drop things\n Stiffness in the fingers\n Occasional aching\n "
             android:id="@+id/textView9"
             android:layout_gravity="center_horizontal" />
 
 
     </LinearLayout>
-</ScrollView>

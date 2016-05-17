@@ -1,24 +1,27 @@
-package layout;
+package com.scamtunnel.cts;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.widget.ImageView;
+import android.widget.VideoView;
 
-import com.scamtunnel.cts.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AvoidFragment.OnFragmentInteractionListener} interface
+ * {@link ExcerciseFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link AvoidFragment#newInstance} factory method to
+ * Use the {@link ExcerciseFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AvoidFragment extends Fragment {
+public class ExcerciseFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +33,7 @@ public class AvoidFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public AvoidFragment() {
+    public ExcerciseFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +43,11 @@ public class AvoidFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment AvoidFragment.
+     * @return A new instance of fragment ExcerciseFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AvoidFragment newInstance(String param1, String param2) {
-        AvoidFragment fragment = new AvoidFragment();
+    public static ExcerciseFragment newInstance(String param1, String param2) {
+        ExcerciseFragment fragment = new ExcerciseFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,7 +68,39 @@ public class AvoidFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_avoid, container, false);
+        View view = inflater.inflate(R.layout.fragment_excercise, container, false);
+        VideoView view1 = (VideoView) view.findViewById(R.id.vView1);
+        VideoView view2 = (VideoView) view.findViewById(R.id.vView2);
+        VideoView view3 = (VideoView) view.findViewById(R.id.vView3);
+        view1.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+        view2.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+        view3.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mp.setLooping(true);
+            }
+        });
+        String path = "android.resource://" + getActivity().getApplicationContext().getPackageName() + "/" + R.raw.excercise1;
+        view1.setVideoURI(Uri.parse(path));
+        view1.start();
+        path = "android.resource://" + getActivity().getApplicationContext().getPackageName() + "/" + R.raw.excercise4;
+        view2.setVideoURI(Uri.parse(path));
+        view2.start();
+        //web2.loadUrl("file:///android_res/raw/excercise2.webm");
+        path = "android.resource://" + getActivity().getApplicationContext().getPackageName() + "/" + R.raw.excercise3;
+        view3.setVideoURI(Uri.parse(path));
+        view3.start();
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -97,7 +132,7 @@ public class AvoidFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
+     * <p/>
      * See the Android Training lesson <a href=
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.

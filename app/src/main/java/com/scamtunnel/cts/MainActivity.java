@@ -11,11 +11,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import layout.AvoidFragment;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     MainFragment firstFragment = new MainFragment();
 
     AboutFragment aboutFragment = new AboutFragment();
+    AvoidFragment avoidFragment = new AvoidFragment();
+    ExcerciseFragment excerciseFragment = new ExcerciseFragment();
     //ISetTextInFragment setText;
 
     //setText = (ISetTextInFragment)MainFragment;
@@ -114,14 +118,10 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_about) {
             transaction.replace(R.id.fragment_container, aboutFragment);
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_avoid) {
-
-        } else if (id == R.id.nav_send) {
-
+            transaction.replace(R.id.fragment_container, avoidFragment);
+        } else if (id == R.id.nav_excercises) {
+            transaction.replace(R.id.fragment_container, excerciseFragment);
         }
         transaction.commit();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

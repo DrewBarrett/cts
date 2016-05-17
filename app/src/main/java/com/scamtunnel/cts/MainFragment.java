@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import org.w3c.dom.Text;
 
@@ -101,6 +102,7 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         //return inflater.inflate(R.layout.fragment_main, container, false);
         textbox = (TextView) view.findViewById(R.id.textViewBlue);
+        //VideoView view1 = (VideoView) view.findViewById(R.id.vView1);
         textbox.setText("Initializing Bluetooth");
         rootView = view;
 

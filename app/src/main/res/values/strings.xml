@@ -7,4 +7,10 @@
     <string name="title_activity_main">MainActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="avoidstring">The risk of CTS is high in occupations involving exposure to high pressure, high force, repetitive work, and vibrating tools\n<b>Minimize stress on your hands and wrists\nReduce your force and relax your grip.</b>\nMost people use more force than needed to perform many manual tasks. If your work involves a cash register, for instance, hit the keys softly. For prolonged handwriting, use a big pen with an oversized, soft grip adapter and free-flowing ink. This way you won\'t have to grip the pen tightly or press as hard on the paper.\n
+<b>Take frequent breaks.</b>\nGive your hands and wrists a break by gently stretching and bending them periodically. Alternate tasks when possible.\nIf you use equipment that vibrates or that requires you to exert a great amount of force, taking breaks is even more important.\n
+<b>Watch your form.</b>\nAvoid bending your wrist all the way up or down. A relaxed middle position is best. If you use a keyboard, keep it at elbow height or slightly lower.\n
+<b>Improve your posture.</b>\nIncorrect posture can cause your shoulders to roll forward. When your shoulders are in this position, your neck and shoulder muscles are shortened, compressing nerves in your neck. This can affect your wrists, fingers and hands.\n
+<b>Keep your hands warm.</b>\nYou\'re more likely to develop hand pain and stiffness if you work in a cold environment. If you can\'t control the temperature at work, put on fingerless gloves that keep your hands and wrists warm\n
+</string>
 </resources>

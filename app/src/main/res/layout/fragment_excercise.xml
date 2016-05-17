@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.scamtunnel.cts.ExcerciseFragment"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <!-- TODO: Update blank fragment layout -->
+    <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="174dp"
+        android:id="@+id/vView1"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="This stretches the palmar fascia, carpal tunnel structures, and median nerve, the nerve that gets irritated in a carpal tunnel syndrome"
+        android:id="@+id/textView11"
+        android:layout_gravity="center_horizontal" />
+
+    <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:id="@+id/vView2"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Do this for a minute or two every hour to keep flexor muscles of your hands and its median nerve from getting cramped and tight during the day"
+        android:id="@+id/textView12"
+        android:layout_gravity="center_horizontal" />
+
+    <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="293dp"
+        android:id="@+id/vView3"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Do this two to three times on each side, and try to do this stretch every hour. After a few weeks of doing this multiple times a day, you'll notice a ton of improvement in your wrist's flexibility."
+        android:id="@+id/textView13"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>
