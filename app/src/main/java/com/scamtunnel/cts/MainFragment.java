@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.VideoView;
 
@@ -50,6 +51,15 @@ public class MainFragment extends Fragment {
     ConnectThread mConnectThread = null;
     ConnectedThread mConnectedThread = null;
     private OnFragmentInteractionListener mListener;
+
+    float yaw = 0;
+    float yaw0 = 0;
+    float pitch = 0;
+    float pitch0 = 0;
+    float roll = 0;
+    float roll0 = 0;
+    float bend = 0;
+    float bend0 = 0;
 
     public MainFragment() {
         // Required empty public constructor
@@ -106,7 +116,15 @@ public class MainFragment extends Fragment {
         textbox.setText("Initializing Bluetooth");
         rootView = view;
 
-
+        final Button button = (Button) view.findViewById(R.id.btnZero);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                yaw0 = yaw;
+                pitch0 = pitch;
+                roll0 = roll;
+                bend0 = bend;
+            }
+        });
         return view;
 
         //TextView textView = (TextView) rootView.findViewById(R.id.textViewBlue);
@@ -121,6 +139,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+    }
+
+    public void zero(View view) {
+
     }
 
     public void startBluetooth() {
@@ -277,9 +299,10 @@ public class MainFragment extends Fragment {
         private final BluetoothSocket mmSocket;
         private final InputStream mmInStream;
         private final OutputStream mmOutStream;
-        String yaw = "";
-        String pitch = "";
-        String roll = "";
+
+        //String yaw = "";
+        //String pitch = "";
+        //String roll = "";
         public ConnectedThread(BluetoothSocket socket) {
             mmSocket = socket;
             InputStream tmpIn = null;
@@ -319,12 +342,16 @@ public class MainFragment extends Fragment {
                                 testHandler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (data.contains("*")) {
-                                            yaw = "yaw: " + data.substring(data.indexOf("*", 0) + 1, data.indexOf("$")) + "\n";
-                                            pitch = "pitch: " + data.substring(data.indexOf("$", 0) + 1, data.indexOf("@")) + "\n";
-                                            roll = "roll: " + data.substring(data.indexOf("@", 0) + 1, data.indexOf("#")) + "\n";
+                                        if (data.contains("*") && data.length() > 0 && data.indexOf("$") > data.indexOf("*")) {
+                                            //yaw = "yaw: " + data.substring(data.indexOf("*", 0) + 1, data.indexOf("$")) + "\n";
+                                            //pitch = "pitch: " + data.substring(data.indexOf("$", 0) + 1, data.indexOf("@")) + "\n";
+                                            //roll = "roll: " + data.substring(data.indexOf("@", 0) + 1, data.indexOf("#")) + "\n";
+                                            yaw = Float.parseFloat(data.substring(data.indexOf("*", 0) + 1, data.indexOf("$")));
+                                            pitch = Float.parseFloat(data.substring(data.indexOf("$", 0) + 1, data.indexOf("@")));
+                                            roll = Float.parseFloat(data.substring(data.indexOf("@", 0) + 1, data.indexOf("#")));
+                                            bend = Float.parseFloat(data.substring(data.indexOf("&", 0) + 1, data.indexOf("&", data.indexOf("&", 0) + 1)));
                                         }
-                                        updateText(yaw + pitch + roll + data);
+                                        updateText("Yaw: " + Float.toString(yaw) + "\nZeroed Yaw: " + Float.toString(yaw - yaw0) + "\nPitch: " + Float.toString(pitch) + "\nZeroed Pitch: " + Float.toString(pitch - pitch0) + "\nRoll: " + Float.toString(roll) + "\nZeroed Roll: " + Float.toString(roll - roll0) + "\nBend: " + Float.toString(bend) + "\nZeroed Bend: " + Float.toString(bend - bend0) + "\nDEBUG: " + data);
 
                                     }
                                 });
