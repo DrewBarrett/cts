@@ -1,15 +1,18 @@
 package com.scamtunnel.cts;
 
+import android.app.NotificationManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +63,8 @@ public class MainFragment extends Fragment {
     float roll0 = 0;
     float bend = 0;
     float bend0 = 0;
+
+    int bent = 0;
 
     public MainFragment() {
         // Required empty public constructor
@@ -350,6 +355,20 @@ public class MainFragment extends Fragment {
                                             pitch = Float.parseFloat(data.substring(data.indexOf("$", 0) + 1, data.indexOf("@")));
                                             roll = Float.parseFloat(data.substring(data.indexOf("@", 0) + 1, data.indexOf("#")));
                                             bend = Float.parseFloat(data.substring(data.indexOf("&", 0) + 1, data.indexOf("&", data.indexOf("&", 0) + 1)));
+                                            if (Math.abs(bend - bend0) > 30 && getActivity() != null) {
+                                                bent++;
+                                                NotificationCompat.Builder mBuilder =
+                                                        new NotificationCompat.Builder(getActivity())
+                                                                .setSmallIcon(R.drawable.ic_test)
+                                                                .setLargeIcon(BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_test))
+                                                                .setContentTitle("Carpal Tunnel Prevention App")
+                                                                .setContentText("You have bent your wrist " + Integer.toString(bent) + " times. Consider doing some excercises!");
+                                                NotificationManager mNotificationManager =
+                                                        (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+
+                                                mNotificationManager.notify(1, mBuilder.build());
+                                            }
                                         }
                                         updateText("Yaw: " + Float.toString(yaw) + "\nZeroed Yaw: " + Float.toString(yaw - yaw0) + "\nPitch: " + Float.toString(pitch) + "\nZeroed Pitch: " + Float.toString(pitch - pitch0) + "\nRoll: " + Float.toString(roll) + "\nZeroed Roll: " + Float.toString(roll - roll0) + "\nBend: " + Float.toString(bend) + "\nZeroed Bend: " + Float.toString(bend - bend0) + "\nDEBUG: " + data);
 
